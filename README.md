@@ -40,8 +40,8 @@ To write a program to implement Stochastic Gradient Descent (SGD) Regressor for 
 ```python
 '''
 Program to implement SGD Regressor for linear regression.
-Developed by: Sanjushri A
-RegisterNumber: 21223040187
+Developed by: Priyadharshini.P
+RegisterNumber: 21223240128
 '''
 
 
