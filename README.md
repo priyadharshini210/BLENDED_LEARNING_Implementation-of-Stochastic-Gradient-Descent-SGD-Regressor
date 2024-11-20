@@ -9,65 +9,98 @@ To write a program to implement Stochastic Gradient Descent (SGD) Regressor for 
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. Load the dataset
-2. Preprocess the dataset
-3. Train the Stochastic Gradient Descent (SGD) Regressor model
-4. Visualize the result
+1. **Import Libraries**:  
+   Import the required libraries.
+
+2. **Load Dataset**:  
+   Load the dataset into your environment.
+
+3. **Data Preprocessing**:  
+   Handle missing values and encode categorical variables.
+
+4. **Define Features and Target**:  
+   Separate the data into features (X) and the target variable (y).
+
+5. **Split Data**:  
+   Divide the data into training and testing sets.
+
+6. **Initialize SGD Regressor**:  
+   Create an SGD Regressor model.
+
+7. **Train the Model**:  
+   Fit the model on the training dataset.
+
+8. **Evaluate Performance**:  
+   Assess the model's performance using evaluation metrics.
+
+9. **Make Predictions & Visualize**:  
+   Make predictions and visualize the results.
 
 ## Program:
-```
-/*
+```python
+'''
 Program to implement SGD Regressor for linear regression.
-Developed by: PRIYADHARSHINI P
-RegisterNumber: 212223240128
-*/
+Developed by: Sanjushri A
+RegisterNumber: 21223040187
+'''
+
+
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.linear_model import SGDRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 
-data = pd.read_csv('car_price_prediction_.csv')
+# Load the dataset
+file_path = r'C:\Users\admin\Downloads\X_Y_Sinusoid_Data (2).csv'  # Replace with the actual file path
+data = pd.read_csv(file_path)
+print(data.columns)
 
-print(data.head())
 
-X = data[['Year', 'Engine Size', 'Mileage', 'Condition']] 
-y = data['Price']
+# Split the data into features and target
+X = data[['x']]  # Independent variable
+y = data['y']    # Dependent variable
 
-X = pd.get_dummies(X, drop_first=True)
-
+# Split into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-sgd_model = SGDRegressor(max_iter=1000, tol=1e-3)
+# Initialize and train the SGD Regressor
+sgd_regressor = SGDRegressor(max_iter=1000, tol=1e-3, random_state=42)
+sgd_regressor.fit(X_train, y_train)
 
-sgd_model.fit(X_train, y_train)
+# Predict on training and testing data
+y_train_pred = sgd_regressor.predict(X_train)
+y_test_pred = sgd_regressor.predict(X_test)
 
-y_pred = sgd_model.predict(X_test)
+# Evaluate performance
+train_mse = mean_squared_error(y_train, y_train_pred)
+test_mse = mean_squared_error(y_test, y_test_pred)
+train_r2 = r2_score(y_train, y_train_pred)
+test_r2 = r2_score(y_test, y_test_pred)
 
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-print(f'Mean Squared Error: {mse}')
-print(f'R-squared: {r2}')
+print("Training Mean Squared Error:", train_mse)
+print("Testing Mean Squared Error:", test_mse)
+print("Training R^2 Score:", train_r2)
+print("Testing R^2 Score:", test_r2)
 
-cv_scores = cross_val_score(sgd_model, X, y, cv=5)  # 5-fold cross-validation
-print(f'Cross-Validation Scores: {cv_scores}')
-print(f'Average Cross-Validation Score: {np.mean(cv_scores)}')
-
+# Visualize predictions vs actual data
 plt.figure(figsize=(10, 6))
-plt.scatter(y_test, y_pred, color='blue', label='Predicted Prices')
-plt.plot([y.min(), y.max()], [y.min(), y.max()], 'r--', lw=2)  # Line for perfect prediction
-plt.xlabel('Actual Prices')
-plt.ylabel('Predicted Prices')
-plt.title('Actual vs Predicted Car Prices using SGD Regressor')
+plt.scatter(X_test, y_test, color='blue', label='Actual')
+plt.scatter(X_test, y_test_pred, color='red', label='Predicted')
+plt.title('Actual vs Predicted Values')
+plt.xlabel('x')
+plt.ylabel('y')
 plt.legend()
+plt.grid(True)
 plt.show()
+
 ```
 
 ## Output:
-![image](https://github.com/user-attachments/assets/526d4aec-210a-4380-9c59-acafee7713f0)
+![image](https://github.com/user-attachments/assets/e4de9c85-8719-4681-beab-5b940b5df623)
 
-![image](https://github.com/user-attachments/assets/26d0fa87-2da4-4e66-a963-f3aeef620c9a)
+
+
 
 
 ## Result:
